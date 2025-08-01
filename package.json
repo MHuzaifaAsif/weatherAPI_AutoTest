@@ -1,0 +1,23 @@
+{
+  "name": "weatherapi_autotest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MHuzaifaAsif/weatherAPI_AutoTest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MHuzaifaAsif/weatherAPI_AutoTest/issues"
+  },
+  "homepage": "https://github.com/MHuzaifaAsif/weatherAPI_AutoTest#readme",
+  "dependencies": {
+    "cypress": "^14.5.3"
+  }
+}
