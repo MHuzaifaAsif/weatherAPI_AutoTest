@@ -4,7 +4,7 @@ const weatherAPI = new WeatherAPI();
 
 describe('Weather API Automation Tests using POM', () => {
 
-  it('TC01 - Valid city: Lahore', () => {
+  it('Valid city: Lahore', () => {
     weatherAPI.getWeatherByCity('Lahore').then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body.name).to.eq('Lahore');
@@ -13,10 +13,40 @@ describe('Weather API Automation Tests using POM', () => {
     });
   });
 
-  it('TC02 - Invalid city name', () => {
+  it('Invalid city name', () => {
     weatherAPI.getWeatherByCity('a').then((response) => {
       expect(response.status).to.eq(404);
       expect(response.body.message).to.include('city not found');
+    });
+  });
+
+  it('Missing City Query: Should return 400 error', () => {
+    const url = `${Cypress.config('baseUrl')}/weather?appid=${Cypress.env('apiKey')}&units=metric`;
+    cy.request({
+      method: 'GET',
+      url: 'https://api.openweathermap.org/data/2.5/weather',
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+    });
+  });
+
+  it('Invalid API Key: Should return 401 error', () => {
+    const url = `${Cypress.config('baseUrl')}/weather?q=Lahore&appid=INVALIDKEY123&units=metric`;
+    cy.request({
+      method: 'GET',
+      url: 'https://api.openweathermap.org/data/2.5/weather',
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(401);
+      expect(response.body.message).to.include('Invalid API key');
+    });
+  });
+
+  it('Verify Temperature Unit is Metric', () => {
+    weatherAPI.getWeatherByCity('Faisalabad').then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.main.temp).to.be.a('number');
     });
   });
 });
