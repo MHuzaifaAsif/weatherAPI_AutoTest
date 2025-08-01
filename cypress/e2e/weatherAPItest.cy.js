@@ -49,4 +49,20 @@ describe('Weather API Automation Tests using POM', () => {
       expect(response.body.main.temp).to.be.a('number');
     });
   });
+
+  it('Check response time under 2 seconds', () => {
+    weatherAPI.getWeatherByCity('Lahore').then((response) => {
+      expect(response.duration).to.be.lessThan(2000);
+    });
+  });
+
+  it('Validate Response Structure', () => {
+    weatherAPI.getWeatherByCity('Lahore').then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.have.all.keys(
+        'coord', 'weather', 'base', 'main', 'visibility', 'wind',
+        'clouds', 'dt', 'sys', 'timezone', 'id', 'name', 'cod'
+      );
+    });
+  });
 });
